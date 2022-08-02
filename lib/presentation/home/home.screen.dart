@@ -1,7 +1,10 @@
+import 'package:clean_arch/domain/models/todo.dart';
 import 'package:clean_arch/infrastructure/navigation/routes.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import 'controllers/home.controller.dart';
 
@@ -10,26 +13,67 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('HomeScreen'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () => controller.logout(),
-              icon: const Icon(Icons.logout))
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 0,
-        onPressed: () => Get.toNamed(Routes.ADD_TODO),
-        child: const Icon(Icons.add),
-      ),
-      body: Center(
-        child: Text(
-          'HomeScreen is working',
-          style: TextStyle(fontSize: 20),
+        appBar: AppBar(
+          title: const Text('HomeScreen'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () => controller.logout(),
+                icon: const Icon(Icons.logout))
+          ],
         ),
-      ),
-    );
+        floatingActionButton: FloatingActionButton(
+          elevation: 0,
+          onPressed: () => Get.toNamed(Routes.ADD_TODO),
+          child: const Icon(Icons.add),
+        ),
+        body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: controller.streamTodos(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            final docs = snapshot.data!.docs;
+            if (docs.isEmpty) {
+              return const Center(
+                child: Text("You have no todos"),
+              );
+            }
+            final todos =
+                docs.map((json) => Todo.fromJson(json.data())).toList();
+            return ListView.builder(
+              itemCount: todos.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10)),
+                  margin: const EdgeInsets.all(12),
+                  child: ListTile(
+                    onTap: () => Get.toNamed(Routes.TODO_DETAIL,
+                        arguments: todos[index]),
+                    contentPadding: const EdgeInsets.all(12),
+                    title: Text(
+                      todos[index].title,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Due : ${todos[index].dueTime}"),
+                            const SizedBox(height: 4),
+                            Text(todos[index].description),
+                          ],
+                        )),
+                  ),
+                );
+              },
+            );
+          },
+        ));
   }
 }

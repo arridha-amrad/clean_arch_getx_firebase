@@ -1,4 +1,5 @@
 import 'package:clean_arch/domain/repositories/auth_repository.dart';
+import 'package:clean_arch/domain/repositories/todo_repository.dart';
 import 'package:clean_arch/domain/repositories/user_repository.dart';
 import 'package:get/get.dart';
 
@@ -7,5 +8,6 @@ class MainBinding extends Bindings {
   void dependencies() {
     Get.put(AuthRepository());
     Get.lazyPut<UserRepository>(() => UserRepository(), fenix: true);
+    Get.lazyPut<TodoRepository>(() => TodoRepository(), fenix: true);
   }
 }

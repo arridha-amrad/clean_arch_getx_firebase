@@ -46,5 +46,10 @@ class Nav {
       page: () => const AddTodoScreen(),
       binding: AddTodoControllerBinding(),
     ),
+    GetPage(
+      name: Routes.TODO_DETAIL,
+      page: () => const TodoDetailScreen(),
+      binding: TodoDetailControllerBinding(),
+    ),
   ];
 }

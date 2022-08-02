@@ -4,12 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class TodoRepository {
   final _todoStore = FirebaseFirestore.instance.collection("todos");
 
-  Future<DocumentReference<Map<String, dynamic>>> save(Todo todo) async {
-    final newTodo = await _todoStore.add(todo.toJson());
-    return newTodo;
+  Future<void> save(Todo todo) async {
+    await _todoStore.doc(todo.id).set(todo.toJson());
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> streamTodo() async* {
-    yield* _todoStore.snapshots();
+    yield* _todoStore.orderBy("createdAt", descending: true).snapshots();
   }
 }

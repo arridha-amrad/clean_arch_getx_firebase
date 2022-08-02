@@ -30,52 +30,57 @@ class RegisterScreen extends GetView<RegisterController> {
   _formRegister() {
     return Container(
       margin: const EdgeInsets.all(8),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextInputOutline(
-            controller: controller.usernameController,
-            label: "Username",
-          ),
-          const SizedBox(height: 8),
-          TextInputOutline(
-            controller: controller.emailController,
-            type: TextInputType.emailAddress,
-            label: "Email",
-          ),
-          const SizedBox(height: 8),
-          TextInputOutline(
-            controller: controller.passwordController,
-            isPassword: true,
-            label: "Password",
-          ),
-          const SizedBox(height: 8),
-          SizedBox(
-              width: double.infinity,
-              child: Obx(
-                () => ElevatedButton(
-                  onPressed: controller.isEmailValid.isTrue &&
-                          controller.isUsernameValid.isTrue &&
-                          controller.isPasswordValid.isTrue
-                      ? () {
-                          controller.register();
-                          FocusManager.instance.primaryFocus?.unfocus();
-                        }
-                      : null,
-                  child: const Text("Register"),
-                ),
-              )),
-          const SizedBox(height: 8),
-          Row(
+      child: Center(
+        child: SingleChildScrollView(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text("Already have an account ? "),
-              TextButton(
-                  onPressed: () => Get.offNamed(Routes.LOGIN),
-                  child: const Text("login"))
+              const SizedBox(height: 8),
+              TextInputOutline(
+                controller: controller.usernameController,
+                label: "Username",
+              ),
+              const SizedBox(height: 8),
+              TextInputOutline(
+                controller: controller.emailController,
+                type: TextInputType.emailAddress,
+                label: "Email",
+              ),
+              const SizedBox(height: 8),
+              TextInputOutline(
+                controller: controller.passwordController,
+                isPassword: true,
+                label: "Password",
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                  width: double.infinity,
+                  child: Obx(
+                    () => ElevatedButton(
+                      onPressed: controller.isEmailValid.isTrue &&
+                              controller.isUsernameValid.isTrue &&
+                              controller.isPasswordValid.isTrue
+                          ? () {
+                              controller.register();
+                              FocusManager.instance.primaryFocus?.unfocus();
+                            }
+                          : null,
+                      child: const Text("Register"),
+                    ),
+                  )),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Already have an account ? "),
+                  TextButton(
+                      onPressed: () => Get.offNamed(Routes.LOGIN),
+                      child: const Text("login"))
+                ],
+              )
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
