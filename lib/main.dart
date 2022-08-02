@@ -30,34 +30,3 @@ void main() async {
         );
       }));
 }
-
-// class Main extends StatelessWidget {
-//   final String initialRoute;
-//   const Main({Key? key, required this.initialRoute}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // return GetMaterialApp(
-//     //   initialRoute: initialRoute,
-//     //   getPages: Nav.routes,
-//     // );
-//     return StreamBuilder<User?>(
-//         stream: FirebaseAuth.instance.authStateChanges(),
-//         builder: (context, snapshot) {
-//           if (snapshot.connectionState == ConnectionState.waiting) {
-//             return const MaterialApp(
-//               home: Scaffold(
-//                 body: Center(
-//                   child: CircularProgressIndicator(),
-//                 ),
-//               ),
-//             );
-//           }
-//           final user = snapshot.data;
-//           return GetMaterialApp(
-//             initialRoute: initialRoute,
-//             getPages: Nav.routes,
-//           );
-//         });
-//   }
-// }

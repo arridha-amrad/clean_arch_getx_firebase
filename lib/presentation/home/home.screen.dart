@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 import 'controllers/home.controller.dart';
 
@@ -43,15 +42,24 @@ class HomeScreen extends GetView<HomeController> {
             }
             final todos =
                 docs.map((json) => Todo.fromJson(json.data())).toList();
+            docs.forEach(
+                (element) => print("========= each docs : ${element.data()}"));
             return ListView.builder(
               itemCount: todos.length,
               itemBuilder: (context, index) {
+                print("========== todo : ${todos[index].id}");
                 return Container(
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(10)),
                   margin: const EdgeInsets.all(12),
                   child: ListTile(
+                    trailing: todos[index].isDone
+                        ? const Icon(
+                            Icons.check,
+                            color: Colors.green,
+                          )
+                        : const SizedBox.shrink(),
                     onTap: () => Get.toNamed(Routes.TODO_DETAIL,
                         arguments: todos[index]),
                     contentPadding: const EdgeInsets.all(12),

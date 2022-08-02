@@ -4,24 +4,27 @@ class TextInputOutline extends StatelessWidget {
   TextInputOutline({
     Key? key,
     required this.label,
-    this.controller,
+    required this.controller,
     this.type,
     this.isPassword,
-    this.onChanged,
+    this.isLong,
+    this.inputAction,
   }) : super(key: key);
 
   final String label;
   TextInputType? type;
   bool? isPassword;
-  void Function(String)? onChanged;
-  TextEditingController? controller;
+  bool? isLong;
+  TextInputAction? inputAction;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onChanged: onChanged,
+      textInputAction: inputAction,
+      maxLines: isLong == null || isLong == false ? 1 : 10,
       obscureText: isPassword ?? false,
-      keyboardType: type ?? TextInputType.name,
+      keyboardType: type,
       controller: controller,
       decoration: InputDecoration(
         labelText: label,

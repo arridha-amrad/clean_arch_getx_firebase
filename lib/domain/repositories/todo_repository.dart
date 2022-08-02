@@ -11,4 +11,13 @@ class TodoRepository {
   Stream<QuerySnapshot<Map<String, dynamic>>> streamTodo() async* {
     yield* _todoStore.orderBy("createdAt", descending: true).snapshots();
   }
+
+  Future<void> delete(Todo todo) async {
+    print("todo id : ${todo.id}");
+    await _todoStore.doc(todo.id).delete();
+  }
+
+  Future<void> update(Todo todo) async {
+    await _todoStore.doc(todo.id).update(todo.toJson());
+  }
 }

@@ -20,6 +20,7 @@ class Todo {
   });
 
   factory Todo.fromJson(Map<String, dynamic> json) => Todo(
+      id: json["id"],
       title: json["title"],
       description: json["description"],
       createdAt: DateTime.parse(json["createdAt"]),
