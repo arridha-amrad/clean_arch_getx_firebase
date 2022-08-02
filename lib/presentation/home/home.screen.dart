@@ -42,30 +42,45 @@ class HomeScreen extends GetView<HomeController> {
             }
             final todos =
                 docs.map((json) => Todo.fromJson(json.data())).toList();
-            docs.forEach(
-                (element) => print("========= each docs : ${element.data()}"));
+
             return ListView.builder(
               itemCount: todos.length,
               itemBuilder: (context, index) {
-                print("========== todo : ${todos[index].id}");
+                final isEdited = todos[index].createdAt.toString() !=
+                    todos[index].updatedAt.toString();
                 return Container(
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(10)),
                   margin: const EdgeInsets.all(12),
                   child: ListTile(
-                    trailing: todos[index].isDone
-                        ? const Icon(
-                            Icons.check,
-                            color: Colors.green,
-                          )
-                        : const SizedBox.shrink(),
                     onTap: () => Get.toNamed(Routes.TODO_DETAIL,
                         arguments: todos[index]),
                     contentPadding: const EdgeInsets.all(12),
-                    title: Text(
-                      todos[index].title,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    title: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          todos[index].title,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        isEdited
+                            ? const Text(
+                                " edited",
+                                style:
+                                    TextStyle(fontSize: 12, color: Colors.grey),
+                              )
+                            : const SizedBox.shrink(),
+                        const SizedBox(
+                          width: 12.0,
+                        ),
+                        todos[index].isDone
+                            ? const Icon(
+                                Icons.check,
+                                color: Colors.green,
+                              )
+                            : const SizedBox.shrink(),
+                      ],
                     ),
                     subtitle: Padding(
                         padding: const EdgeInsets.only(top: 4.0),

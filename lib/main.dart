@@ -24,6 +24,7 @@ void main() async {
         }
         final user = snapshot.data;
         return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
           initialRoute: user == null ? Routes.LOGIN : Routes.HOME,
           getPages: Nav.routes,
           initialBinding: MainBinding(),

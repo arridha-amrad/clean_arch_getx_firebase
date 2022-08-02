@@ -49,14 +49,15 @@ class AddTodoController extends GetxController {
       Get.offAllNamed(Routes.HOME);
       return;
     }
+    final date = DateTime.now();
     try {
       final todo = Todo(
         id: const Uuid().v4(),
         title: titleCon.text,
         description: descriptionCon.text,
         dueTime: dueTimeController.text,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
+        createdAt: date,
+        updatedAt: date,
         isDone: false,
         userId: _authRepo.user!.uid,
       );

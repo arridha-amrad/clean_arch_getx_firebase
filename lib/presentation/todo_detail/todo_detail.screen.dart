@@ -46,7 +46,6 @@ class TodoDetailScreen extends GetView<TodoDetailController> {
                     ],
                   ),
                   TextFormField(
-                    enabled: false,
                     controller: controller.dueTime,
                     style: const TextStyle(color: Colors.black54),
                     readOnly: true,
